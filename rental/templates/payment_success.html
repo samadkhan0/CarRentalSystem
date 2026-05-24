@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+
+<div class="card shadow p-5 text-center">
+
+
+<h1>
+
+✅ Payment Successful
+
+</h1>
+
+
+<p>
+
+Your booking is confirmed.
+
+</p>
+
+
+
+<h4>
+
+{{ car.name }}
+
+</h4>
+
+
+
+<p>
+
+Amount Paid:
+
+Rs {{ car.price_per_day }}
+
+</p>
+
+
+
+<a
+
+href="{% url 'invoice' car.id %}"
+
+class="btn btn-primary"
+
+>
+
+Download Invoice 📄
+
+</a>
+
+
+
+<a
+
+href="{% url 'dashboard' %}"
+
+class="btn btn-success mt-3"
+
+>
+
+Go To Dashboard
+
+</a>
+
+
+</div>
+
+
+</div>
+
+{% endblock %}

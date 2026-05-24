@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container mt-5">
+
+
+<div class="card shadow-lg p-4">
+
+
+{% if car.image %}
+
+<img
+
+src="{{ car.image.url }}"
+
+class="img-fluid rounded mb-4"
+
+style="height:400px;object-fit:cover;"
+
+>
+
+{% endif %}
+
+
+
+<h1>
+
+{{ car.name }}
+
+</h1>
+
+
+
+<p>
+
+Brand:
+
+<b>
+
+{{ car.brand }}
+
+</b>
+
+</p>
+
+
+<p>
+
+Category:
+
+{{ car.category }}
+
+</p>
+
+
+
+<p>
+
+Price:
+
+<b>
+
+Rs {{ car.price_per_day }}/day
+
+</b>
+
+</p>
+
+
+
+<hr>
+
+
+<h3>
+
+Specifications 🚗
+
+</h3>
+
+
+
+<div class="row">
+
+
+<div class="col-md-6">
+
+<p>
+
+👥 Seats:
+
+{{ car.seats }}
+
+</p>
+
+
+<p>
+
+⛽ Fuel:
+
+{{ car.fuel_type }}
+
+</p>
+
+
+<p>
+
+⚙️ Transmission:
+
+{{ car.transmission }}
+
+</p>
+
+
+<p>
+
+🛣️ Mileage:
+
+{{ car.mileage }}
+
+km/L
+
+</p>
+
+</div>
+
+
+
+<div class="col-md-6">
+
+<p>
+
+🎨 Color:
+
+{{ car.color }}
+
+</p>
+
+
+<p>
+
+🧳 Luggage:
+
+{{ car.luggage }}
+
+bags
+
+</p>
+
+
+<p>
+
+❄️ AC:
+
+{% if car.air_conditioning %}
+
+Yes
+
+{% else %}
+
+No
+
+{% endif %}
+
+</p>
+
+
+<p>
+
+📍 Location:
+
+{{ car.location.city }}
+
+</p>
+
+</div>
+
+
+</div>
+
+
+
+<hr>
+
+
+<h4>
+
+Description
+
+</h4>
+
+
+<p>
+
+{{ car.description }}
+
+</p>
+
+
+
+<a
+
+href="{% url 'book_car' car.id %}"
+
+class="btn btn-warning"
+
+>
+
+Book Now
+
+</a>
+
+
+
+<a
+
+href="{% url 'review' car.id %}"
+
+class="btn btn-outline-primary"
+
+>
+
+Review
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+{% endblock %}

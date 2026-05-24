@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="card shadow p-4">
+
+
+<h2>
+
+👤 My Profile
+
+</h2>
+
+
+<hr>
+
+
+{% if customer.profile_picture %}
+
+<img
+
+src="{{ customer.profile_picture.url }}"
+
+style="width:120px;height:120px;border-radius:50%;object-fit:cover;"
+
+>
+
+{% endif %}
+
+
+
+<form method="POST"
+
+enctype="multipart/form-data">
+
+{% csrf_token %}
+
+
+<input
+
+name="phone"
+
+class="form-control mb-3"
+
+placeholder="Phone"
+
+value="{{ customer.phone }}"
+
+>
+
+
+<input
+
+name="city"
+
+class="form-control mb-3"
+
+placeholder="City"
+
+value="{{ customer.city }}"
+
+>
+
+
+
+<input
+
+name="license"
+
+class="form-control mb-3"
+
+placeholder="License Number"
+
+value="{{ customer.license_number }}"
+
+>
+
+
+
+<input
+
+type="file"
+
+name="image"
+
+class="form-control mb-3"
+
+>
+
+
+
+<button class="btn btn-warning">
+
+Save Profile
+
+</button>
+
+
+</form>
+
+
+
+<hr>
+
+
+<h5>
+
+Username:
+
+{{ request.user.username }}
+
+</h5>
+
+
+<h5>
+
+Bookings:
+
+{{ bookings }}
+
+</h5>
+
+
+</div>
+
+</div>
+
+
+{% endblock %}

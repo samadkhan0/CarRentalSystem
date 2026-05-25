@@ -326,3 +326,35 @@ class Review(models.Model):
         return self.name
     
         return self.car.name
+    
+    
+class Wishlist(models.Model):
+
+    user = models.ForeignKey(
+
+        User,
+
+        on_delete=models.CASCADE
+
+    )
+
+
+    car = models.ForeignKey(
+
+        Car,
+
+        on_delete=models.CASCADE
+
+    )
+
+
+    created_at = models.DateTimeField(
+
+        auto_now_add=True
+
+    )
+
+
+    def _str_(self):
+
+        return f"{self.user.username} - {self.car.name}"

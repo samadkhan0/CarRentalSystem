@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -5,99 +6,91 @@
 <div class="container mt-5">
 
 <h2>
-
-Welcome,
-
-{{ request.user.username }}
-
+👋 Welcome, {{ request.user.username }}
 </h2>
 
+<p class="text-muted">
+Manage your bookings and activity
+</p>
 
-<div class="row mt-4">
+<hr>
 
-<div class="col-md-4">
 
-<div class="card p-3">
+<div class="row">
 
-<h4>
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>🚗 Total Bookings</h5>
+<h2>{{ bookings.count }}</h2>
+</div>
+</div>
 
-Total Bookings
 
-</h4>
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>💰 Total Spent</h5>
+<h2>Rs {{ total_spent }}</h2>
+</div>
+</div>
 
-<h2>
 
-{{ bookings.count }}
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>⭐ Reviews</h5>
+<h2>{{ reviews_count }}</h2>
+</div>
+</div>
 
-</h2>
 
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>⏳ Pending</h5>
+<h2>{{ active_bookings }}</h2>
+</div>
+</div>
+
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>✅ Approved</h5>
+<h2>{{ approved }}</h2>
+</div>
+</div>
+
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>❌ Cancelled</h5>
+<h2>{{ cancelled }}</h2>
+</div>
 </div>
 
 </div>
 
 
-<div class="col-md-4">
-
-<div class="card p-3">
-
-<h4>
-
-Active
-
-</h4>
-
-<h2>
-
-{{ active_bookings }}
-
-</h2>
-
-</div>
-
-</div>
+<hr class="mt-5">
 
 
-<div class="col-md-4">
-
-<div class="card p-3">
-
-<h4>
-
-Cancelled
-
-</h4>
-
-<h2>
-
-{{ cancelled }}
-
-</h2>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<h3 class="mt-5">
-
-Booking History
-
+<h3>
+📋 Booking History
 </h3>
 
 
+{% if bookings %}
 
-<table class="table">
+<div class="table-responsive">
+
+<table class="table table-bordered shadow mt-3">
+
+<thead class="table-dark">
 
 <tr>
 
 <th>Car</th>
 
-<th>Pickup</th>
+<th>Dates</th>
 
-<th>Return</th>
+<th>Amount</th>
 
 <th>Status</th>
 
@@ -105,47 +98,65 @@ Booking History
 
 </tr>
 
+</thead>
+
+
+<tbody>
 
 {% for booking in bookings %}
 
 <tr>
 
 <td>
-
 {{ booking.car.name }}
+</td>
+
+
+<td>
+
+{{ booking.start_date }}
+
+<br>
+
+to
+
+<br>
+
+{{ booking.end_date }}
 
 </td>
 
 
 <td>
 
-{{ booking.pickup_location.address }}
+Rs {{ booking.total_price }}
 
 </td>
 
 
 <td>
 
-{{ booking.return_location.address }}
-
-</td>
-
-
-<td>
-
-{% if booking.status == 'Pending' %}
+{% if booking.status == 'Approved' %}
 
 <span class="badge bg-success">
 
-Active
+Approved
+
+</span>
+
+{% elif booking.status == 'Cancelled' %}
+
+<span class="badge bg-danger">
+
+Cancelled
 
 </span>
 
 {% else %}
 
-<span class="badge bg-danger">
+<span class="badge bg-warning text-dark">
 
-Cancelled
+{{ booking.status }}
 
 </span>
 
@@ -156,19 +167,15 @@ Cancelled
 
 <td>
 
-{% if booking.status == 'Pending' %}
+{% if booking.status != 'Cancelled' %}
 
 <a
 
 href="{% url 'cancel_booking' booking.id %}"
 
-onclick="return confirm(
+class="btn btn-danger btn-sm"
 
-'Are you sure you want to cancel this booking?'
-
-)"
-
-class="btn btn-danger"
+onclick="return confirm('Cancel booking?')"
 
 >
 
@@ -180,13 +187,29 @@ Cancel
 
 </td>
 
+
 </tr>
 
 {% endfor %}
+
+</tbody>
 
 </table>
 
 </div>
 
+
+{% else %}
+
+<div class="alert alert-info">
+
+No bookings yet 🚗
+
+</div>
+
+{% endif %}
+
+
+</div>
 
 {% endblock %}

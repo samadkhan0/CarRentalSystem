@@ -96,4 +96,35 @@ path(
     name='profile'
 ),
 
+path(
+
+    'payment-success/<int:booking_id>/',
+
+    views.payment_success,
+
+    name='payment_success'
+
+),
+
+path(
+
+    'wishlist/',
+
+    views.wishlist,
+
+    name='wishlist'
+
+),
+
+
+path(
+
+    'wishlist/<int:car_id>/',
+
+    views.add_to_wishlist,
+
+    name='add_to_wishlist'
+
+),
+
 ]

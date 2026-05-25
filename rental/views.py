@@ -24,16 +24,16 @@ from .models import (
     Customer,
     RentalLocation,
     Review,
-    Payment
+    Payment,
+    Wishlist
 )
 
 from django.db.models import Avg
 
 from datetime import datetime
 
-# ------------------
 # HOME PAGE
-# -------------------
+
 
 def home(request):
 
@@ -96,9 +96,8 @@ def home(request):
     )
 
 
-# -------------------
 # REGISTER
-# -------------------
+
 def register_user(request):
 
     if request.method == 'POST':
@@ -144,9 +143,7 @@ def register_user(request):
     )
 
 
-# -------------------
 # LOGIN
-# -------------------
 
 def login_user(request):
 
@@ -206,9 +203,9 @@ def login_user(request):
 
 
 
-# -------------------
+
 # BOOK CAR
-# -------------------
+
 @login_required
 def book_car(request, car_id):
 
@@ -296,32 +293,65 @@ def book_car(request, car_id):
     )
 
 
-# -------------------
 # DASHBOARD
-# -------------------
+
 @login_required
 def dashboard(request):
 
     customer = Customer.objects.get(
+
         user=request.user
+
     )
 
 
     bookings = Booking.objects.filter(
+
         customer=customer
+
     ).order_by(
+
         '-id'
+
     )
 
 
     active_bookings = bookings.filter(
+
         status='Pending'
+
+    ).count()
+
+
+    approved = bookings.filter(
+
+        status='Approved'
+
     ).count()
 
 
     cancelled = bookings.filter(
+
         status='Cancelled'
+
     ).count()
+
+
+    total_spent = sum(
+
+        booking.total_price
+
+        for booking in bookings
+
+    )
+
+
+    reviews_count = Review.objects.filter(
+
+        customer=customer
+
+    ).count()
+
 
 
     context = {
@@ -332,7 +362,13 @@ def dashboard(request):
 
         'active_bookings': active_bookings,
 
+        'approved': approved,
+
         'cancelled': cancelled,
+
+        'total_spent': total_spent,
+
+        'reviews_count': reviews_count,
 
     }
 
@@ -347,9 +383,9 @@ def dashboard(request):
 
     )
 
-# -------------------
+
 # CAR DETAIL
-# -------------------
+
 def car_detail(request, car_id):
 
     car = get_object_or_404(
@@ -376,9 +412,9 @@ def car_detail(request, car_id):
     )
 
 
-# -------------------
+
 # CANCEL BOOKING
-# -------------------
+
 @login_required
 def cancel_booking(
 
@@ -556,14 +592,14 @@ def payment(request, booking_id):
         )
 
 
-        booking.status = 'Pending Approval'
+        booking.status = 'Pending'
 
         booking.save()
 
 
         return redirect(
 
-            'invoice',
+            'payment_success',
 
             booking.id
 
@@ -585,7 +621,11 @@ def payment(request, booking_id):
     )
 
 @login_required
-def invoice(request, booking_id):
+def invoice(
+    
+    request, 
+    
+    booking_id):
 
     booking = get_object_or_404(
 
@@ -814,6 +854,107 @@ def profile(request):
             'customer': customer,
 
             'bookings': bookings
+
+        }
+
+    )
+
+@login_required
+def payment_success(
+
+    request,
+
+    booking_id
+
+):
+
+
+    booking = get_object_or_404(
+
+        Booking,
+
+        id=booking_id
+
+    )
+
+
+    return render(
+
+        request,
+
+        'payment_success.html',
+
+        {
+
+            'booking': booking
+
+        }
+
+    )    
+    
+@login_required
+def add_to_wishlist(
+
+    request,
+
+    car_id
+
+):
+
+    car = get_object_or_404(
+
+        Car,
+
+        id=car_id
+
+    )
+
+
+    item, created = Wishlist.objects.get_or_create(
+
+        user=request.user,
+
+        car=car
+
+    )
+
+
+    if not created:
+
+        item.delete()
+
+
+    return redirect(
+
+        'home'
+
+    )
+
+
+
+@login_required
+def wishlist(
+
+    request
+
+):
+
+    items = Wishlist.objects.filter(
+
+        user=request.user
+
+    )
+
+
+    return render(
+
+        request,
+
+        'wishlist.html',
+
+        {
+
+            'items': items
 
         }
 

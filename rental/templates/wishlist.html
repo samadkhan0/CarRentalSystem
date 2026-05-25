@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+
+<h2>
+
+❤️ My Wishlist
+
+</h2>
+
+
+<hr>
+
+
+
+<div class="row">
+
+
+{% for item in items %}
+
+
+<div class="col-md-4">
+
+
+<div class="card shadow p-3">
+
+
+{% if item.car.image %}
+
+<img
+
+src="{{ item.car.image.url }}"
+
+class="card-img-top"
+
+>
+
+{% endif %}
+
+
+
+<h4>
+
+{{ item.car.name }}
+
+</h4>
+
+
+<p>
+
+{{ item.car.brand }}
+
+</p>
+
+
+<p>
+
+Rs {{ item.car.price_per_day }}/day
+
+</p>
+
+
+
+<a
+
+href="{% url 'book_car' item.car.id %}"
+
+class="btn btn-warning"
+
+>
+
+Book Now
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+{% empty %}
+
+
+<p>
+
+No saved cars ❤️
+
+</p>
+
+
+{% endfor %}
+
+
+</div>
+
+
+</div>
+
+{% endblock %}

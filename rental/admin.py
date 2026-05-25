@@ -14,63 +14,13 @@ from .models import (
 
     CarCategory,
 
-    Payment
+    Payment,
+
+    Wishlist
 
 )
 
 
-
-# ------------------
-# CAR ADMIN
-# ------------------
-
-@admin.register(Car)
-class CarAdmin(admin.ModelAdmin):
-
-    list_display = (
-
-        'name',
-
-        'brand',
-
-        'price_per_day',
-
-        'fuel_type',
-
-        'seats',
-
-        'transmission',
-
-        'available'
-
-    )
-
-
-    list_filter = (
-
-        'fuel_type',
-
-        'available',
-
-        'transmission'
-
-    )
-
-
-    search_fields = (
-
-        'name',
-
-        'brand'
-
-    )
-
-
-
-
-# ------------------
-# BOOKING ADMIN
-# ------------------
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
@@ -86,6 +36,13 @@ class BookingAdmin(admin.ModelAdmin):
         'start_date',
 
         'end_date'
+
+    )
+
+
+    list_filter = (
+
+        'status',
 
     )
 
@@ -108,18 +65,28 @@ class BookingAdmin(admin.ModelAdmin):
     ):
 
 
-        queryset.update(
-
-            status='Approved'
-
-        )
-
-
         for booking in queryset:
+
+
+            booking.status = 'Approved'
+
 
             booking.car.available = False
 
+
             booking.car.save()
+
+
+            booking.save()
+
+
+        self.message_user(
+
+            request,
+
+            "Booking approved successfully ✅"
+
+        )
 
 
     approve_booking.short_description = (
@@ -129,7 +96,9 @@ class BookingAdmin(admin.ModelAdmin):
     )
 
 
-                    
+
+admin.site.register(Car)
+
 admin.site.register(Customer)
 
 admin.site.register(Review)
@@ -139,3 +108,5 @@ admin.site.register(RentalLocation)
 admin.site.register(CarCategory)
 
 admin.site.register(Payment)
+
+admin.site.register(Wishlist)

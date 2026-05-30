@@ -629,8 +629,6 @@ def payment(request, booking_id):
             'booking': booking
 
         }
-
-
     )
 
 @login_required

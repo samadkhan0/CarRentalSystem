@@ -302,30 +302,6 @@ class Payment(models.Model):
         blank=True
     )
     
-class Review(models.Model):
-    customer = models.ForeignKey(
-        Customer,
-        on_delete=models.CASCADE
-    )
-
-    car = models.ForeignKey(
-        Car,
-        on_delete=models.CASCADE
-    )
-
-    rating = models.IntegerField()
-
-    comment = models.TextField()
-    
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
-
-    def __str__(self):
-        
-        return self.name
-    
-        return self.car.name
 
     
 class Review(models.Model):

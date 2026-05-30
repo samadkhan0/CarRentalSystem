@@ -49,7 +49,8 @@ class BookingAdmin(admin.ModelAdmin):
 
     actions = [
 
-        'approve_booking'
+        'approve_booking',
+        'cancel_booking'
 
     ]
 
@@ -94,7 +95,30 @@ class BookingAdmin(admin.ModelAdmin):
         "Approve selected bookings"
 
     )
+def cancel_booking(
+    self,
+    request,
+    queryset
+):
 
+    for booking in queryset:
+
+        booking.status = 'Cancelled'
+
+        booking.car.available = True
+
+        booking.car.save()
+
+        booking.save()
+
+    self.message_user(
+        request,
+        "Booking cancelled successfully ❌"
+    )
+
+cancel_booking.short_description = (
+    "Cancel selected bookings"
+)
 
 
 admin.site.register(Car)

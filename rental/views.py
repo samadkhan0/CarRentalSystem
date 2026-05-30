@@ -28,33 +28,46 @@ from .models import (
     Wishlist
 )
 
-from django.db.models import Avg
+from django.db.models import Avg, Q
 
 from datetime import datetime
 
+
+
 # HOME PAGE
-
-
 def home(request):
 
     cars = Car.objects.filter(
+
         available=True
+
     )
 
+
     search = request.GET.get(
+
         'search'
+
     )
 
 
     if search:
 
         cars = cars.filter(
-            name__icontains=search
-        ) | Car.objects.filter(
 
-            brand__icontains=search,
+            Q(name__icontains=search) |
 
-            available=True
+            Q(brand__icontains=search) |
+
+            Q(category__name__icontains=search) |
+
+            Q(fuel_type__icontains=search) |
+
+            Q(transmission__icontains=search) |
+
+            Q(seats__icontains=search) |
+
+            Q(price_per_day__icontains=search)
 
         )
 
@@ -77,8 +90,11 @@ def home(request):
 
 
         car.average_rating = avg[
+
             'rating__avg'
+
         ]
+
 
 
     return render(
@@ -94,7 +110,6 @@ def home(request):
         }
 
     )
-
 
 # REGISTER
 
@@ -294,7 +309,6 @@ def book_car(request, car_id):
 
 
 # DASHBOARD
-
 @login_required
 def dashboard(request):
 
@@ -382,7 +396,6 @@ def dashboard(request):
         context
 
     )
-
 
 # CAR DETAIL
 
@@ -596,7 +609,6 @@ def payment(request, booking_id):
 
         booking.save()
 
-
         return redirect(
 
             'payment_success',
@@ -618,8 +630,42 @@ def payment(request, booking_id):
 
         }
 
+
     )
 
+@login_required
+def payment_success(
+
+    request,
+
+    booking_id
+
+):
+
+
+    booking = get_object_or_404(
+
+        Booking,
+
+        id=booking_id
+
+    )
+
+
+    return render(
+
+        request,
+
+        'payment_success.html',
+
+        {
+
+            'booking': booking
+
+        }
+
+    )
+    
 @login_required
 def invoice(
     
@@ -859,39 +905,7 @@ def profile(request):
 
     )
 
-@login_required
-def payment_success(
 
-    request,
-
-    booking_id
-
-):
-
-
-    booking = get_object_or_404(
-
-        Booking,
-
-        id=booking_id
-
-    )
-
-
-    return render(
-
-        request,
-
-        'payment_success.html',
-
-        {
-
-            'booking': booking
-
-        }
-
-    )    
-    
 @login_required
 def add_to_wishlist(
 

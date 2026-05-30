@@ -6,10 +6,16 @@
 
 
 <!-- Search -->
+<form
 
-<form method="GET">
+method="GET"
 
-<div class="input-group mb-4">
+class="mb-5"
+
+>
+
+<div class="input-group shadow-lg">
+
 
 <input
 
@@ -17,26 +23,32 @@ type="text"
 
 name="search"
 
-class="form-control"
+class="form-control form-control-lg"
 
-placeholder="Search BMW, Toyota..."
+placeholder="Search BMW, SUV, Petrol, Automatic..."
+
+value="{{ request.GET.search }}"
 
 >
 
+
+
 <button
 
-class="btn btn-warning">
+class="btn btn-warning px-4"
+
+type="submit"
+
+>
 
 Search
 
 </button>
 
+
 </div>
 
 </form>
-
-
-
 <!-- Hero -->
 
 <div class="p-5 text-center bg-dark text-white rounded shadow mb-5">
@@ -84,7 +96,7 @@ Available Cars
 {% for car in cars %}
 
 
-<div class="col-md-4 mb-4">
+<div class="col-12 col-sm-6 col-lg-4 mb-4">
 
 
     <div
@@ -106,7 +118,7 @@ Available Cars
 
 src="{{ car.image.url }}"
 
-class="card-img-top"
+class="card-img-top img-fluid"
 
 style="height:220px;object-fit:cover;"
 
@@ -116,7 +128,7 @@ style="height:220px;object-fit:cover;"
 
 
 
-<div class="card-body">
+<div class="card h-100 shadow">
 
 
 <h3>
@@ -350,13 +362,254 @@ No reviews yet
 
 
 
-<footer
+<!-- Contact Section -->
 
-class="bg-dark text-center text-white p-4 mt-5"
+<section
+
+id="contact"
+
+class="container my-5"
 
 >
 
-© 2026 Car Rental System
+<div class="card bg-dark text-light border-0 shadow-lg">
+
+<div class="card-body p-5 text-center">
+
+
+<h2 class="fw-bold mb-4">
+
+Contact Us 📞
+
+</h2>
+
+
+<p class="mb-2">
+
+📧 support@carrental.com
+
+</p>
+
+
+<p class="mb-2">
+
+📱 +44 333 444 555
+
+</p>
+
+
+<p class="mb-2">
+
+📍 Lahore, Pakistan
+
+</p>
+
+
+<p class="mb-4 text-light-emphasis">
+
+We are available 24/7 for customer support and bookings.
+
+</p>
+
+
+
+<a
+
+href="mailto:support@carrental.com"
+
+class="btn btn-warning px-4"
+
+>
+
+Send Email
+
+</a>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+
+<!-- Professional Footer -->
+
+<footer class="bg-black text-light pt-5 pb-3 mt-5">
+
+
+<div class="container">
+
+
+<div class="row">
+
+
+<!-- Brand -->
+
+<div class="col-md-4 mb-4">
+
+
+<h4 class="fw-bold">
+
+🚗 Car Rental
+
+</h4>
+
+
+<p class="text-secondary">
+
+Premium car rental platform with luxury and affordable vehicles for every journey.
+
+</p>
+
+
+</div>
+
+
+
+
+<!-- Quick Links -->
+
+<div class="col-md-4 mb-4">
+
+
+<h5>
+
+Quick Links
+
+</h5>
+
+
+<p>
+
+<a
+
+href="{% url 'home' %}"
+
+class="text-decoration-none text-secondary"
+
+>
+
+Home
+
+</a>
+
+</p>
+
+
+
+<p>
+
+<a
+
+href="{% url 'dashboard' %}"
+
+class="text-decoration-none text-secondary"
+
+>
+
+Dashboard
+
+</a>
+
+</p>
+
+
+
+<p>
+
+<a
+
+href="{% url 'wishlist' %}"
+
+class="text-decoration-none text-secondary"
+
+>
+
+Wishlist
+
+</a>
+
+</p>
+
+
+
+<p>
+
+<a
+
+href="#contact"
+
+class="text-decoration-none text-secondary"
+
+>
+
+Contact
+
+</a>
+
+</p>
+
+
+</div>
+
+
+
+
+<!-- Social -->
+
+<div class="col-md-4 mb-4">
+
+
+<h5>
+
+Follow Us
+
+</h5>
+
+
+<p class="text-secondary">
+
+📸 Instagram
+
+</p>
+
+
+<p class="text-secondary">
+
+📘 Facebook
+
+</p>
+
+
+<p class="text-secondary">
+
+🐦 Twitter
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<hr class="border-secondary">
+
+
+
+<div class="text-center text-secondary">
+
+© 2026 Car Rental System | All Rights Reserved
+
+</div>
+
+
+</div>
 
 </footer>
 
